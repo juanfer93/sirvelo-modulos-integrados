@@ -1,0 +1,11 @@
+{
+    "name": "sirvelo-api",
+    "version": "1.0.0",
+    "description": "API de Sírvelo sin dependencias externas (solo módulos de Node).",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "license": "ISC"
+}
