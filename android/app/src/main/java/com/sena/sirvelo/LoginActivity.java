@@ -1,10 +1,12 @@
 package com.sena.sirvelo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -109,9 +111,41 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Manejo de respuestas del servidor
                 if (codigoRespuesta == 200) {
-                    Intent intent = new Intent(LoginActivity.this, PedidosActivity.class);
-                    startActivity(intent);
-                    finish();
+
+                    try {
+
+                        JSONObject jsonRespuesta =
+                                new JSONObject(respuesta.toString());
+
+                        String token =
+                                jsonRespuesta.getString("token");
+
+                        SharedPreferences preferencias =
+                                getSharedPreferences("SirveloPrefs", MODE_PRIVATE);
+
+                        preferencias.edit()
+                                .putString("token", token)
+                                .apply();
+
+                        runOnUiThread(() -> {
+
+                            Intent intent =
+                                    new Intent(LoginActivity.this, PedidosActivity.class);
+
+                            startActivity(intent);
+                            finish();
+                        });
+
+                    } catch (Exception e) {
+
+                        runOnUiThread(() ->
+                                Toast.makeText(
+                                        LoginActivity.this,
+                                        "Error procesando la respuesta del servidor",
+                                        Toast.LENGTH_SHORT
+                                ).show()
+                        );
+                    }
                 }
                 // Login correcto.
 
