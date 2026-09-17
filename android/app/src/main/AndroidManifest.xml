@@ -26,6 +26,14 @@
         </activity>
 
         <activity
+            android:name=".PedidosActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".DetallePedidoActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
 
