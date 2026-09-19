@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_numero_mesa"
+        style="@style/TextoEncabezadoSirvelo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mesa: --" />
+
+    <ListView
+        android:id="@+id/lv_productos_pedido"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"
+        android:divider="@null"
+        android:dividerHeight="8dp" />
+
+    <TextView
+        android:id="@+id/tv_total_pedido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:text="Total: $0.00"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_finalizar_pedido"
+        style="@style/BotonSirvelo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Despachar Pedido" />
+
+</LinearLayout>
