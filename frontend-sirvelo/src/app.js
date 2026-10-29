@@ -86,6 +86,35 @@ export async function eliminarPedido(id) {
     return peticion(`/api/pedidos/${id}`, { metodo: "DELETE" });
 }
 
+export async function listarMenu(incluirOcultos = false) {
+    const sufijo = incluirOcultos ? "?incluirOcultos=true" : "";
+    return peticion(`/api/menu${sufijo}`);
+}
+
+export async function crearCategoria(datos) {
+    return peticion("/api/menu/categorias", { metodo: "POST", cuerpo: datos });
+}
+
+export async function actualizarCategoria(id, datos) {
+    return peticion(`/api/menu/categorias/${id}`, { metodo: "PUT", cuerpo: datos });
+}
+
+export async function ocultarCategoria(id) {
+    return peticion(`/api/menu/categorias/${id}`, { metodo: "DELETE" });
+}
+
+export async function crearProducto(datos) {
+    return peticion("/api/menu/productos", { metodo: "POST", cuerpo: datos });
+}
+
+export async function actualizarProducto(id, datos) {
+    return peticion(`/api/menu/productos/${id}`, { metodo: "PUT", cuerpo: datos });
+}
+
+export async function ocultarProducto(id) {
+    return peticion(`/api/menu/productos/${id}`, { metodo: "DELETE" });
+}
+
 async function renderizarRuta() {
     const contenedor = document.getElementById("app");
     if (!contenedor) return;
@@ -111,6 +140,17 @@ async function renderizarRuta() {
         contenedor.innerHTML = "";
         const { renderDashboard } = await import("./views/DashboardView.js");
         renderDashboard(contenedor);
+        return;
+    }
+
+    if (ruta === "#/menu") {
+        if (!obtenerSesion()) {
+            window.location.hash = "#/login";
+            return;
+        }
+        contenedor.innerHTML = "";
+        const { renderMenu } = await import("./views/MenuView.js");
+        renderMenu(contenedor);
         return;
     }
 

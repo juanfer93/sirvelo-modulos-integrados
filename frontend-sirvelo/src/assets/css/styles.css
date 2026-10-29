@@ -263,6 +263,21 @@ textarea.formulario__entrada {
     gap: 1rem;
 }
 
+.navbar__enlace {
+    color: var(--color-texto);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.45rem 0.7rem;
+    border-radius: 8px;
+}
+
+.navbar__enlace:hover,
+.navbar__enlace[aria-current="page"] {
+    color: var(--color-primario-oscuro);
+    background-color: var(--color-primario-claro);
+}
+
 .navbar__usuario {
     font-size: 0.95rem;
     font-weight: 500;
@@ -300,6 +315,109 @@ textarea.formulario__entrada {
 
 .estado--oculto {
     display: none;
+}
+
+.menu-page__descripcion {
+    margin: 0.2rem 0 0;
+    color: var(--color-gris);
+    font-size: 0.92rem;
+}
+
+.menu-page__controles,
+.menu-formulario__acciones,
+.menu-fila__acciones {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.menu-page__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-gris);
+    font-size: 0.9rem;
+}
+
+.menu-page__grid {
+    display: grid;
+    grid-template-columns: minmax(250px, 0.8fr) minmax(320px, 1.2fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.menu-panel {
+    background: var(--color-blanco);
+    border: 1px solid var(--color-gris-claro);
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+    padding: 1.25rem;
+}
+
+.menu-panel h2 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+}
+
+.menu-formulario {
+    border-bottom: 1px solid var(--color-gris-claro);
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
+.menu-lista {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.menu-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.8rem;
+    border: 1px solid var(--color-gris-claro);
+    border-radius: 10px;
+    background: var(--color-blanco);
+}
+
+.menu-fila--oculta {
+    opacity: 0.62;
+    background: var(--color-fondo);
+}
+
+.menu-fila strong,
+.menu-fila span {
+    display: block;
+}
+
+.menu-fila span {
+    margin-top: 0.2rem;
+    color: var(--color-gris);
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+}
+
+.menu-producto__imagen {
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--color-fondo);
+}
+
+.menu-producto__texto {
+    flex: 1;
+    min-width: 0;
+}
+
+.menu-producto__precio {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--color-primario-oscuro);
+    font-variant-numeric: tabular-nums;
 }
 
 /* ============ Tarjetas de pedido ============ */
@@ -532,4 +650,52 @@ textarea.formulario__entrada {
     .login__tarjeta {
         padding: 1.75rem;
     }
+
+    .navbar__derecha {
+        gap: 0.45rem;
+    }
+
+    .navbar__enlace {
+        font-size: 0.82rem;
+        padding: 0.4rem 0.5rem;
+    }
+
+    .menu-page__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-page__controles {
+        width: 100%;
+    }
+
+    .menu-page__controles .boton {
+        flex: 1;
+    }
+
+    .menu-fila {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .menu-fila__acciones {
+        width: 100%;
+    }
+
+    .menu-fila__acciones .boton {
+        flex: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+:focus-visible {
+    outline: 3px solid rgba(255, 77, 46, 0.5);
+    outline-offset: 2px;
 }
