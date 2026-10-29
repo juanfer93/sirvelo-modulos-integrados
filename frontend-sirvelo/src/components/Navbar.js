@@ -23,6 +23,12 @@ export function crearNavbar({ usuario }) {
     nombreUsuario.className = "navbar__usuario";
     nombreUsuario.textContent = usuario?.nombre || usuario?.email || "Empleado";
 
+    const enlaceMenu = document.createElement("a");
+    enlaceMenu.className = "navbar__enlace";
+    enlaceMenu.href = "#/menu";
+    enlaceMenu.textContent = "Menú digital";
+    enlaceMenu.setAttribute("aria-current", window.location.hash === "#/menu" ? "page" : "false");
+
     const botonSalir = document.createElement("button");
     botonSalir.type = "button";
     botonSalir.className = "boton boton--claro boton--pequeno";
@@ -33,7 +39,7 @@ export function crearNavbar({ usuario }) {
     });
 
     marca.append(logo, titulo);
-    derecha.append(nombreUsuario, botonSalir);
+    derecha.append(enlaceMenu, nombreUsuario, botonSalir);
     navbar.append(marca, derecha);
     return navbar;
 }

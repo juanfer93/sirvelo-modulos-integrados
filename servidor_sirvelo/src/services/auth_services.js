@@ -1,9 +1,10 @@
 import db from "../config/db.js";
+import { verifyPassword } from "../helpers/passwords.js";
 
 export const Validacion = async (email, password) => {
     try {
         const usuario = db
-            .prepare("SELECT id, email, nombre, password FROM usuarios_api WHERE email = ?")
+            .prepare("SELECT id, email, nombre, password_hash FROM usuarios_api WHERE email = ?")
             .get(email);
 
         if (!usuario) {
@@ -13,7 +14,7 @@ export const Validacion = async (email, password) => {
             };
         }
 
-        if (password !== usuario.password) {
+        if (!verifyPassword(password, usuario.password_hash, usuario.email)) {
             return {
                 exito: false,
                 mensaje: "Contraseña incorrecta"

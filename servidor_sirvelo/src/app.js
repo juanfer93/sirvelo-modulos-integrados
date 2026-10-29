@@ -1,5 +1,6 @@
 import { login } from "./controllers/auth_controller.js";
 import * as pedidosController from "./controllers/pedidos_controller.js";
+import * as menuController from "./controllers/menu_controller.js";
 import { autorizarPeticion } from "./middleware/auth_middleware.js";
 import { responderJson, configurarCors, leerCuerpo } from "./helpers/http.js";
 
@@ -48,6 +49,27 @@ export async function manejarSolicitud(req, res) {
     req.usuario = autorizacion.usuario;
 
     if (!ruta.startsWith("/api/pedidos")) {
+        if (ruta === "/api/menu" && metodo === "GET") {
+            return menuController.listar(req, res);
+        }
+        if (ruta === "/api/menu/categorias" && metodo === "POST") {
+            return menuController.crearCategoria(req, res, cuerpo);
+        }
+        const categoria = ruta.match(/^\/api\/menu\/categorias\/(\d+)$/);
+        if (categoria) {
+            req.params = { id: Number(categoria[1]) };
+            if (metodo === "PUT") return menuController.actualizarCategoria(req, res, cuerpo);
+            if (metodo === "DELETE") return menuController.ocultarCategoria(req, res);
+        }
+        if (ruta === "/api/menu/productos" && metodo === "POST") {
+            return menuController.crearProducto(req, res, cuerpo);
+        }
+        const producto = ruta.match(/^\/api\/menu\/productos\/(\d+)$/);
+        if (producto) {
+            req.params = { id: Number(producto[1]) };
+            if (metodo === "PUT") return menuController.actualizarProducto(req, res, cuerpo);
+            if (metodo === "DELETE") return menuController.ocultarProducto(req, res);
+        }
         return responderJson(res, 404, { mensaje: "Ruta no encontrada" });
     }
 
