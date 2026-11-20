@@ -3,11 +3,13 @@ package com.sena.sirvelo;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -29,6 +31,8 @@ public class PedidosActivity extends AppCompatActivity {
 
     private ListView listViewPedidos;
 
+    private TextView mensajePedidos;
+
     private Button botonNuevoPedido;
 
     private ArrayList<JSONObject> listaPedidos;
@@ -46,9 +50,8 @@ public class PedidosActivity extends AppCompatActivity {
         listViewPedidos =
                 findViewById(R.id.listViewPedidos);
 
-        listViewPedidos.setEmptyView(
-                findViewById(R.id.txtPedidosVacios)
-        );
+        mensajePedidos = findViewById(R.id.txtPedidosVacios);
+        mostrarEstadoPedidos("Cargando pedidos...");
 
         botonNuevoPedido =
                 findViewById(R.id.btnNuevoPedido);
@@ -92,6 +95,8 @@ public class PedidosActivity extends AppCompatActivity {
 
     private void cargarPedidos() {
 
+        mostrarEstadoPedidos("Cargando pedidos...");
+
         SharedPreferences preferencias =
                 getSharedPreferences(
                         "SirveloPrefs",
@@ -105,6 +110,8 @@ public class PedidosActivity extends AppCompatActivity {
                 );
 
         if (token == null || token.isEmpty()) {
+
+            mostrarEstadoPedidos("No se encontró el token de sesión. Inicia sesión nuevamente.");
 
             Toast.makeText(
                     this,
@@ -211,11 +218,24 @@ public class PedidosActivity extends AppCompatActivity {
                         );
 
                         adapter.notifyDataSetChanged();
+
+                        if (nuevosPedidos.isEmpty()) {
+                            mostrarEstadoPedidos(
+                                    "No hay pedidos todavía. Pulsa Nuevo pedido para registrar el primero."
+                            );
+                        } else {
+                            mensajePedidos.setVisibility(View.GONE);
+                            listViewPedidos.setVisibility(View.VISIBLE);
+                        }
                     });
 
                 } else {
 
                     runOnUiThread(() -> {
+
+                        mostrarEstadoPedidos(
+                                "Error al obtener pedidos: HTTP " + codigoRespuesta
+                        );
 
                         Toast.makeText(
                                 PedidosActivity.this,
@@ -236,6 +256,8 @@ public class PedidosActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
 
+                    mostrarEstadoPedidos("No se pudo conectar con el servidor.");
+
                     Toast.makeText(
                             PedidosActivity.this,
                             "No se pudo conectar con el servidor",
@@ -251,6 +273,12 @@ public class PedidosActivity extends AppCompatActivity {
             }
 
         }).start();
+    }
+
+    private void mostrarEstadoPedidos(String mensaje) {
+        mensajePedidos.setText(mensaje);
+        mensajePedidos.setVisibility(View.VISIBLE);
+        listViewPedidos.setVisibility(View.GONE);
     }
 
     private void mostrarFormularioNuevoPedido() {
